@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 
 @SpringBootApplication
 public class HospitalManagementSystemApplication implements CommandLineRunner {
@@ -35,12 +37,17 @@ public class HospitalManagementSystemApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Role adminRole = new Role();
 		adminRole.setName("ROLE_ADMIN");
-		roleRepository.save(adminRole);
+		List<Role> roles = roleRepository.findAll();
+		if(roles.isEmpty()) {
+			roleRepository.save(adminRole);
+		}
 
 
 		Role userRole = new Role();
 		userRole.setName("ROLE_USER");
-		roleRepository.save(userRole);
+		if(roles.isEmpty()) {
+			roleRepository.save(userRole);
+		}
 
 
 	}

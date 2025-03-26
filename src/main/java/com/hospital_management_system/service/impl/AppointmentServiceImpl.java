@@ -100,6 +100,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void addAppointment(Appointment appointment) {
         appointmentQueue.add(appointment);
         System.out.println("Added: " + appointment);
+        processAppointments();
     }
 
     private void processAppointments() {

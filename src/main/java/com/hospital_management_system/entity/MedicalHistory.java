@@ -21,7 +21,7 @@ public class MedicalHistory {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    private Patient patient;
+    private com.hospital_management_system.entity.Patient patient;
     @Column
     private String allergies;
     @Column
