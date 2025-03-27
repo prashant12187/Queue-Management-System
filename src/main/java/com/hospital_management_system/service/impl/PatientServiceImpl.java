@@ -69,6 +69,7 @@ public class PatientServiceImpl implements PatientService {
             appointment.setAppointmentDate(currentDateAndTime);
             appointment.setReasonForVisit(patientDTO.getReasonForVisit());
             appointment.setPatient(patient);
+            appointment.setProcessed(false);
             appointmentRepository.save(appointment);
             appointmentService.addAppointment(appointment);
 

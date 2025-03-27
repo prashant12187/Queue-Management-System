@@ -20,5 +20,7 @@ public class Appointment {
     private Patient patient;
     private String appointmentDate;
     private String reasonForVisit;
+
+    private boolean processed;
 }
 

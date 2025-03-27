@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -98,18 +99,28 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentResponse;
     }
     public void addAppointment(Appointment appointment) {
-        appointmentQueue.add(appointment);
+        appointmentQueue.offer(appointment);
         System.out.println("Added: " + appointment);
-        processAppointments();
+        //processAppointments();
     }
 
+
+    @Scheduled(fixedDelay = 5000)
     private void processAppointments() {
-        Appointment appointment = appointmentQueue.poll();
-        if (appointment != null) {
-            System.out.println("Processing: " + appointment);
-            // Simulate appointment completion
-            completeAppointment(appointment);
+        while (!appointmentQueue.isEmpty()) {
+            Appointment appointment = appointmentQueue.poll();
+            if (appointment != null) {
+                processAppointment(appointment);
+            }
         }
+    }
+    // Process single appointment
+    private void processAppointment(Appointment appointment) {
+        System.out.println("Processing appointment: " + appointment.getPatient());
+
+        // Mark as processed and save to DB
+        appointment.setProcessed(true);
+        appointmentRepository.save(appointment);
     }
     private void completeAppointment(Appointment appointment) {
         System.out.println("Completed: " + appointment);
