@@ -1,0 +1,25 @@
+package src.main.java.com.hospital_management_system.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "slot")
+public class Slot {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String queueName;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private boolean isBooked;
+
+    // Getters and setters
+}
