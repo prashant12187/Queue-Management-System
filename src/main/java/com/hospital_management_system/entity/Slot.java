@@ -1,4 +1,4 @@
-package src.main.java.com.hospital_management_system.entity;
+package com.hospital_management_system.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
