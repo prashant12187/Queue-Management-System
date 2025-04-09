@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,14 +41,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentServiceImpl() {
         scheduler.scheduleAtFixedRate(this::processAppointments, 0, 1, TimeUnit.SECONDS);
     }
-
-    /*@Autowired
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, PatientRepository patientRepository, ModelMapper modelMapper) {
-        this.appointmentRepository = appointmentRepository;
-        this.patientRepository = patientRepository;
-        this.modelMapper = modelMapper;
-    }*/
-
 
     @Override
     public Appointment createAppointment(AppointmentDTO appointmentDTO) {

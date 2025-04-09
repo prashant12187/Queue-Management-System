@@ -73,24 +73,6 @@ public class PatientServiceImpl implements PatientService {
             appointmentRepository.save(appointment);
             appointmentService.addAppointment(appointment);
 
-
-
-
-
-        // Map Appointments
-       /* Patient finalPatient = patient;
-        patientDTO.getAppointments().forEach(appointmentDTO -> {
-            Appointment appointment = modelMapper.map(appointmentDTO, Appointment.class);
-            appointment.setPatient(finalPatient);
-            appointmentRepository.save(appointment);
-        });*/
-
-
-        // Map Billing
-       /* Billing billing = modelMapper.map(patientDTO.getBilling(), Billing.class);
-        billing.setPatient(patient);
-        billingRepository.save(billing);*/
-
         return patient;
     }
 

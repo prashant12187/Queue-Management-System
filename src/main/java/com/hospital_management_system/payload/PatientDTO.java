@@ -1,11 +1,13 @@
 package com.hospital_management_system.payload;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
 
 @Data
+@AllArgsConstructor
 public class PatientDTO {
     private Long id;
     private String name;
