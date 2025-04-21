@@ -1,5 +1,8 @@
 package com.hospital_management_system.service.impl;
 
+import com.hospital_management_system.entity.Patient;
+import com.hospital_management_system.exception.ResourceNotFoundException;
+import com.hospital_management_system.repository.PatientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,21 +18,26 @@ import java.util.List;
 public class SlotServiceImpl implements SlotService {
     @Autowired
     private SlotRepository slotRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
     @Autowired
     private ModelMapper modelMapper;
 
-    public Slot bookSlot(String queueName, LocalDateTime startTime, LocalDateTime endTime) {
+    public Slot bookSlot(String queueName, LocalDateTime startTime, LocalDateTime endTime, Long patientId) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         String startTime1 = startTime.format(formatter);
         String endTime1 = endTime.format(formatter);
 
         List<Slot> availableSlots = slotRepository.findByQueueNameAndIsBookedFalse(queueName);
+        Patient patient = patientRepository.findById(patientId).get();
         for (Slot slot : availableSlots) {
 
             String formattedStartTime = slot.getStartTime().format(formatter);
             String formattedEndTime = slot.getEndTime().format(formatter);
             if (formattedStartTime.equals(startTime1) && formattedEndTime.equals(endTime1)) {
                 slot.setBooked(true);
+                slot.setPatient(patient);
                 return slotRepository.save(slot);
             }
         }
@@ -45,6 +53,21 @@ public class SlotServiceImpl implements SlotService {
         Slot slot = modelMapper.map(slotDto, Slot.class);
         slot = slotRepository.save(slot);
         return slot;
+    }
+
+    @Override
+    public List<Slot> bookAllSlots() {
+        //List<Slot> slots = slotRepository.findAll();
+        List<Slot> slotList = slotRepository.findByIsBookedFalse();
+        if(slotList.isEmpty()){
+            throw new ResourceNotFoundException("No slots are available");
+        }
+        else{
+            slotList.forEach(slot -> slot.setBooked(true));
+            slotRepository.saveAll(slotList);
+        }
+        return slotList;
+
     }
 
 }

@@ -46,7 +46,13 @@ public class SlotServiceImplTest {
         LocalDateTime startTime = LocalDateTime.parse("2025-04-05T09:30");
         LocalDateTime endTime = LocalDateTime.parse("2025-04-05T10:00");
 
-        Slot slot = new Slot(1L, "abc", startTime, endTime, false);
+        Patient patient = new Patient();
+            patient.setId(1L);
+            patient.setName("prashant");
+            patient.setGender("male");
+            patient.setDateOfBirth("2025-04-09");
+
+        Slot slot = new Slot(1L, "abc", startTime, endTime, false, patient);
         SlotDTO slotDTO = new SlotDTO(1L, "abc", startTime, endTime, false);
 
         Mockito.when(slotRepository.save(slot)).thenReturn(slot);
@@ -64,12 +70,18 @@ public class SlotServiceImplTest {
         LocalDateTime startTime = LocalDateTime.parse("2025-04-05T09:30");
         LocalDateTime endTime = LocalDateTime.parse("2025-04-05T10:00");
 
-        Slot slot = new Slot(1L, "abc", startTime, endTime, false);
+        Patient patient = new Patient();
+        patient.setId(1L);
+        patient.setName("prashant");
+        patient.setGender("male");
+        patient.setDateOfBirth("2025-04-09");
+
+        Slot slot = new Slot(1L, "abc", startTime, endTime, false, patient);
 
         LocalDateTime startTime1 = LocalDateTime.parse("2025-04-05T10:00");
         LocalDateTime endTime1 = LocalDateTime.parse("2025-04-05T10:30");
 
-        Slot slot1 = new Slot(2L, "abc", startTime1, endTime1, false);
+        Slot slot1 = new Slot(2L, "abc", startTime1, endTime1, false, patient);
 
         List<Slot> slotList = new ArrayList<Slot>();
         slotList.add(slot);
@@ -87,12 +99,18 @@ public class SlotServiceImplTest {
         LocalDateTime startTime = LocalDateTime.parse("2025-04-05T09:30");
         LocalDateTime endTime = LocalDateTime.parse("2025-04-05T10:00");
 
-        Slot slot = new Slot(1L, "abc", startTime, endTime, false);
+        Patient patient = new Patient();
+        patient.setId(1L);
+        patient.setName("prashant");
+        patient.setGender("male");
+        patient.setDateOfBirth("2025-04-09");
+
+        Slot slot = new Slot(1L, "abc", startTime, endTime, false, patient);
 
         LocalDateTime startTime1 = LocalDateTime.parse("2025-04-05T10:00");
         LocalDateTime endTime1 = LocalDateTime.parse("2025-04-05T10:30");
 
-        Slot slot1 = new Slot(2L, "abc", startTime1, endTime1, false);
+        Slot slot1 = new Slot(2L, "abc", startTime1, endTime1, false, patient);
 
         List<Slot> slotList = new ArrayList<Slot>();
         slotList.add(slot);
@@ -102,7 +120,7 @@ public class SlotServiceImplTest {
         Mockito.when(slotRepository.findByQueueNameAndIsBookedFalse("abc")).thenReturn(slotList);
         Mockito.when(slotRepository.save(slot)).thenReturn(slot);
 
-        Slot result = slotService.bookSlot("abc", startTime, endTime);
+        Slot result = slotService.bookSlot("abc", startTime, endTime, 1L);
         assertEquals("abc", result.getQueueName());
     }
     @Test
@@ -112,7 +130,7 @@ public class SlotServiceImplTest {
         LocalDateTime resultendTime = LocalDateTime.parse("2025-04-05T12:00");
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            slotService.bookSlot("abc", resultstartTime, resultendTime); // Replace with the actual method call
+            slotService.bookSlot("abc", resultstartTime, resultendTime, 1L); // Replace with the actual method call
         });
 
         assertEquals("No available slots for the specified time.", exception.getMessage());

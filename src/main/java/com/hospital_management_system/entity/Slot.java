@@ -21,5 +21,9 @@ public class Slot {
     private LocalDateTime endTime;
     private boolean isBooked;
 
+    @OneToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
     // Getters and setters
 }
