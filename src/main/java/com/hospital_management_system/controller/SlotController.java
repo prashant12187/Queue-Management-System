@@ -19,10 +19,16 @@ public class SlotController {
     @Autowired
     private SlotService slotService;
 
-    @PostMapping("/book")
-    public ResponseEntity<Slot> bookSlot(@RequestParam String queueName, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endTime) {
-        Slot bookedSlot = slotService.bookSlot(queueName, startTime, endTime);
+    @PostMapping("/book/{patientId}")
+    public ResponseEntity<Slot> bookSlot(@PathVariable Long patientId,@RequestParam String queueName, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endTime) {
+        Slot bookedSlot = slotService.bookSlot(queueName, startTime, endTime,patientId);
         return ResponseEntity.ok(bookedSlot);
+    }
+
+    @PostMapping("/allSlotsBooked")
+    public ResponseEntity<List<Slot>> bookAllSlot() {
+        List<Slot> slotList = slotService.bookAllSlots();
+        return ResponseEntity.ok(slotList);
     }
 
     @PreAuthorize("hasRole('ADMIN')") // Only admin can create

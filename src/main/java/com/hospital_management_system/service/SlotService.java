@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface SlotService {
-    Slot bookSlot(String queueName, LocalDateTime startTime, LocalDateTime endTime);
+    Slot bookSlot(String queueName, LocalDateTime startTime, LocalDateTime endTime, Long patientId);
     List<Slot> getAvailableSlots(String queueName);
     Slot createSlots(SlotDTO slotDto);
+    List<Slot> bookAllSlots();
 }

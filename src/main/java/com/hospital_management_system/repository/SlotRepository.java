@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findByQueueNameAndIsBookedFalse(String queueName);
+    List<Slot> findByIsBookedFalse();
 }
