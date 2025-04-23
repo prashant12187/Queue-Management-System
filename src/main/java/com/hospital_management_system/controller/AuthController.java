@@ -91,14 +91,16 @@ public class AuthController {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
-        user.setRoles(Collections.singleton(roles));
-
+        if(signUpDto.getRole().equals("admin")) {
+            Role roles = roleRepository.findByName("ROLE_ADMIN").get();
+            user.setRoles(Collections.singleton(roles));
+        }
+        else if(signUpDto.getRole().equals("user")) {
+            Role roles = roleRepository.findByName("ROLE_USER").get();
+            user.setRoles(Collections.singleton(roles));
+        }
 
         userRepository.save(user);
-
-
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 }

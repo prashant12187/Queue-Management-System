@@ -76,7 +76,7 @@ public class SlotControllerTest {
         public void testAdminAccessCreateSlots() throws Exception {
         LocalDateTime startTime = LocalDateTime.parse("2025-04-09T09:30");
         LocalDateTime endTime = LocalDateTime.parse("2025-04-09T10:00");
-        SlotDTO slotDTO = new SlotDTO(1L, "testQueue", startTime, endTime, false);
+        SlotDTO slotDTO = new SlotDTO(1L, "testQueue", startTime, endTime, false, false);
 
            mockMvc.perform(MockMvcRequestBuilders.post("/api/slots")
                          .contentType(MediaType.APPLICATION_JSON)
