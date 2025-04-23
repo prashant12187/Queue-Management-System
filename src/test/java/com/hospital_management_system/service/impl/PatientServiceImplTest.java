@@ -59,8 +59,8 @@ public class PatientServiceImplTest {
         LocalDateTime startTime = LocalDateTime.parse("2025-04-05T09:30");
         LocalDateTime endTime = LocalDateTime.parse("2025-04-05T10:00");
 
-        Patient patient = new Patient(1L, "prashant", "1991-01-30","male" );
-        Patient patient1 = new Patient(2L, "rakesh", "1990-05-04","male" );
+        Patient patient = new Patient(1L, "prashant", "1991-01-30","male", "prashant12@gmail.com" );
+        Patient patient1 = new Patient(2L, "rakesh", "1990-05-04","male", "rakesh42@gmail.com" );
 
         List<Patient> patientList = new ArrayList<Patient>();
         patientList.add(patient);
@@ -79,10 +79,10 @@ public class PatientServiceImplTest {
         LocalDateTime startTime = LocalDateTime.parse("2025-04-05T09:30");
         LocalDateTime endTime = LocalDateTime.parse("2025-04-05T10:00");
 
-        Patient patient = new Patient(1L, "prashant", "1991-01-30","male" );
+        Patient patient = new Patient(1L, "prashant", "1991-01-30","male", "prashant12@gmail.com" );
         MedicalHistory medicalHistory = new MedicalHistory(1L, patient,  "cough and cold", "chest pain", "abcxyz");
         MedicalHistoryDTO medicalHistoryDTO = new MedicalHistoryDTO(1L, "cough and cold", "chest pain", "abcxyz");
-        PatientDTO patientDTO = new PatientDTO(1L, "prashant", "1991-01-30","male" , "back pain", medicalHistoryDTO);
+        PatientDTO patientDTO = new PatientDTO(1L, "prashant", "1991-01-30","male" , "back pain", "prashant12@gmail.com", medicalHistoryDTO);
 
 
 

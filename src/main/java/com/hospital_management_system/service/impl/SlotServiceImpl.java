@@ -70,4 +70,12 @@ public class SlotServiceImpl implements SlotService {
 
     }
 
+    @Override
+    public List<Slot> getPatientsInTheQueue(String queueName) {
+
+        List<Slot> bookedSlots = slotRepository.findByQueueNameAndIsBookedTrueOrderByStartTime(queueName);
+        return bookedSlots;
+
+    }
+
 }

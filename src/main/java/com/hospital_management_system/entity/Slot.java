@@ -20,6 +20,7 @@ public class Slot {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean isBooked;
+    private boolean isNotified;
 
     @OneToOne
     @JoinColumn(name = "patient_id")

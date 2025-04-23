@@ -30,5 +30,8 @@ public class Patient {
     @Column(name = "gender", nullable = false)
     private String gender;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
 
 }
