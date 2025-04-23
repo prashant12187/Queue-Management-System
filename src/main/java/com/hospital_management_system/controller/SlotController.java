@@ -1,5 +1,6 @@
 package com.hospital_management_system.controller;
 
+import com.hospital_management_system.entity.Patient;
 import com.hospital_management_system.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,8 +12,11 @@ import com.hospital_management_system.entity.Slot;
 import com.hospital_management_system.service.SlotService;
 import com.hospital_management_system.payload.SlotDTO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/slots")
@@ -57,20 +61,33 @@ public class SlotController {
     @GetMapping("/queue")
     public ResponseEntity<List<Slot>> getPatientsInTheQueueDetail(@RequestParam String queueName) {
         List<Slot> bookedSlots = slotService.getPatientsInTheQueue(queueName);
-        return ResponseEntity.ok(bookedSlots);
+        List<Slot> bookedSlotsTodaysList = new ArrayList<>();
+
+        LocalDate today = LocalDate.now();
+
+        for (Slot slot : bookedSlots) {
+            if(slot.getStartTime().toLocalDate().equals(today) ){
+                bookedSlotsTodaysList.add(slot);
+            }
+        }
+
+        return ResponseEntity.ok(bookedSlotsTodaysList);
     }
 
 
     @GetMapping("/queue/{patientId}")
     public ResponseEntity<Integer> getQueuePosition(@PathVariable Long patientId, @RequestParam String queueName) {
        List<Slot> bookedSlots = slotService.getPatientsInTheQueue(queueName);
+        LocalDate today = LocalDate.now();
             int position = 1;
-            for (Slot slot : bookedSlots) {
-          if (slot.getPatient().getId().equals(patientId)) {
-            return ResponseEntity.ok(position);
-         }
-      position++;
-    }
+        for (Slot slot : bookedSlots) {
+            if(slot.getStartTime().toLocalDate().equals(today) && slot.getPatient()!=null){
+                if(slot.getPatient().getId()==patientId){
+                    return ResponseEntity.ok(position);
+                }
+                position++;
+            }
+        }
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(-1); // Patient not found in the queue
     }
 

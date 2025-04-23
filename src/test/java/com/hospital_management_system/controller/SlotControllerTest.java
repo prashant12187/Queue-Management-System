@@ -57,7 +57,7 @@ public class SlotControllerTest {
           patient.setGender("male");
           patient.setDateOfBirth("2025-04-09");
 
-        List<Slot> availableSlots = Arrays.asList(new Slot(1L, "testQueue", startTime, endTime, false,patient), new Slot(2L, "testQueue", startTime1, endTime1, false,patient));
+        List<Slot> availableSlots = Arrays.asList(new Slot(1L, "testQueue", startTime, endTime, false, false, patient), new Slot(2L, "testQueue", startTime1, endTime1, false, false, patient));
 
         Mockito.when(slotService.getAvailableSlots(queueName)).thenReturn(availableSlots);
 
@@ -101,7 +101,7 @@ public class SlotControllerTest {
 
         //List<Slot> availableSlots = Arrays.asList(new Slot(1L, "testQueue", startTime, endTime, false), new Slot(2L, "testQueue", startTime1, endTime1, false));
         //SlotDTO slotDTO = new SlotDTO(1L, "testQueue", startTime, endTime, false);
-        Slot slot = new Slot(1L, "testQueue", startTime, endTime, false,patient);
+        Slot slot = new Slot(1L, "testQueue", startTime, endTime, false, false, patient);
 
         Mockito.when(slotService.bookSlot(queueName, startTime, endTime,patientId)).thenReturn(slot);
 
