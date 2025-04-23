@@ -53,7 +53,7 @@ public class SlotServiceImplTest {
             patient.setDateOfBirth("2025-04-09");
 
         Slot slot = new Slot(1L, "abc", startTime, endTime, false, false,  patient);
-        SlotDTO slotDTO = new SlotDTO(1L, "abc", startTime, endTime, false);
+        SlotDTO slotDTO = new SlotDTO(1L, "abc", startTime, endTime, false, false);
 
         Mockito.when(slotRepository.save(slot)).thenReturn(slot);
         Mockito.when(modelMapper.map(slotDTO, Slot.class)).thenReturn(slot);

@@ -29,6 +29,7 @@ public class SlotController {
     private EmailService emailService;
 
 
+    @PreAuthorize("hasRole('USER')") // Only user can book slots
     @PostMapping("/book/{patientId}")
     public ResponseEntity<Slot> bookSlot(@PathVariable Long patientId,@RequestParam String queueName, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endTime) {
         Slot bookedSlot = slotService.bookSlot(queueName, startTime, endTime,patientId);
