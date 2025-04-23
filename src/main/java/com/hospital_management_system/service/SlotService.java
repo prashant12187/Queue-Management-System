@@ -11,4 +11,5 @@ public interface SlotService {
     List<Slot> getAvailableSlots(String queueName);
     Slot createSlots(SlotDTO slotDto);
     List<Slot> bookAllSlots();
+    List<Slot> getPatientsInTheQueue(String queueName);
 }

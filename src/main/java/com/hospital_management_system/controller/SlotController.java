@@ -1,5 +1,6 @@
 package com.hospital_management_system.controller;
 
+import com.hospital_management_system.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,17 @@ public class SlotController {
     @Autowired
     private SlotService slotService;
 
+
+    @Autowired
+    private EmailService emailService;
+
+
     @PostMapping("/book/{patientId}")
     public ResponseEntity<Slot> bookSlot(@PathVariable Long patientId,@RequestParam String queueName, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startTime, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endTime) {
         Slot bookedSlot = slotService.bookSlot(queueName, startTime, endTime,patientId);
+
+        emailService.sendEmail(bookedSlot.getPatient().getEmail(), "Slot Booking Confirmation", "Your slot has been booked successfully.");
+
         return ResponseEntity.ok(bookedSlot);
     }
 
@@ -43,4 +52,27 @@ public class SlotController {
         List<Slot> availableSlots = slotService.getAvailableSlots(queueName);
         return ResponseEntity.ok(availableSlots);
     }
+
+
+    @GetMapping("/queue")
+    public ResponseEntity<List<Slot>> getPatientsInTheQueueDetail(@RequestParam String queueName) {
+        List<Slot> bookedSlots = slotService.getPatientsInTheQueue(queueName);
+        return ResponseEntity.ok(bookedSlots);
+    }
+
+
+    @GetMapping("/queue/{patientId}")
+    public ResponseEntity<Integer> getQueuePosition(@PathVariable Long patientId, @RequestParam String queueName) {
+       List<Slot> bookedSlots = slotService.getPatientsInTheQueue(queueName);
+            int position = 1;
+            for (Slot slot : bookedSlots) {
+          if (slot.getPatient().getId().equals(patientId)) {
+            return ResponseEntity.ok(position);
+         }
+      position++;
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(-1); // Patient not found in the queue
+    }
+
+
 }

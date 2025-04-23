@@ -48,7 +48,7 @@ public class AppointmentControllerTest {
         LocalDateTime now = LocalDateTime.now();
         String  currentDateAndTime= dtf.format(now);
 
-        Patient patient = new Patient(1L, "prashant", "1991-01-30","male" );
+        Patient patient = new Patient(1L, "prashant", "1991-01-30","male", "prashant12@gmail.com");
 
         Appointment appointment = new Appointment();
         appointment.setId(1L);
@@ -71,7 +71,7 @@ public class AppointmentControllerTest {
         LocalDateTime now = LocalDateTime.now();
         String  currentDateAndTime= dtf.format(now);
 
-        Patient patient = new Patient(1L, "prashant", "1991-01-30","male" );
+        Patient patient = new Patient(1L, "prashant", "1991-01-30","male", "prashant12@gmail.com" );
 
         Appointment appointment = new Appointment();
         appointment.setId(1L);
@@ -94,8 +94,8 @@ public class AppointmentControllerTest {
         LocalDateTime now = LocalDateTime.now();
         String  currentDateAndTime= dtf.format(now);
 
-        Patient patient = new Patient(2L, "atul", "1993-01-30","male" );
-        Patient patient1 = new Patient(1L, "at", "1993-01-30","male" );
+        Patient patient = new Patient(2L, "atul", "1993-01-30","male", "prashant12@gmail.com" );
+        Patient patient1 = new Patient(1L, "at", "1993-01-30","male", "atul12@gmail.com" );
 
         AppointmentDTO appointmentDTO = new AppointmentDTO();
         appointmentDTO.setPatientId(1L);
