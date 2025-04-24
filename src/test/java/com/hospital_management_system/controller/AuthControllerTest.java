@@ -81,6 +81,7 @@ public class AuthControllerTest {
           signUpDTO.setEmail("pra@123gmail.com");
           signUpDTO.setUsername("pra123");
           signUpDTO.setPassword("pr12398");
+          signUpDTO.setRole("admin");
 
           Role role = new Role();
             role.setId(1);

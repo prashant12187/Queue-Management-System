@@ -26,7 +26,7 @@ public class SlotController {
 
 
     @Autowired
-    private EmailService emailService;
+        private EmailService emailService;
 
 
     @PreAuthorize("hasRole('USER')") // Only user can book slots

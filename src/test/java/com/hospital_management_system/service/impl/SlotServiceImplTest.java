@@ -5,6 +5,7 @@ import com.hospital_management_system.entity.Patient;
 import com.hospital_management_system.entity.Slot;
 import com.hospital_management_system.payload.SlotDTO;
 import com.hospital_management_system.repository.BillingRepository;
+import com.hospital_management_system.repository.PatientRepository;
 import com.hospital_management_system.repository.SlotRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
@@ -30,6 +32,9 @@ public class SlotServiceImplTest {
 
     @Mock
     private SlotRepository slotRepository;
+
+    @Mock
+    private PatientRepository patientRepository;
 
     @Mock
     private ModelMapper modelMapper;
@@ -118,6 +123,7 @@ public class SlotServiceImplTest {
 
 
         Mockito.when(slotRepository.findByQueueNameAndIsBookedFalse("abc")).thenReturn(slotList);
+        Mockito.when(patientRepository.findById(1L)).thenReturn(Optional.of(patient));
         Mockito.when(slotRepository.save(slot)).thenReturn(slot);
 
         Slot result = slotService.bookSlot("abc", startTime, endTime, 1L);
@@ -128,6 +134,14 @@ public class SlotServiceImplTest {
 
         LocalDateTime resultstartTime = LocalDateTime.parse("2025-04-05T11:30");
         LocalDateTime resultendTime = LocalDateTime.parse("2025-04-05T12:00");
+
+        Patient patient = new Patient();
+        patient.setId(1L);
+        patient.setName("prashant");
+        patient.setGender("male");
+        patient.setDateOfBirth("2025-04-09");
+
+        Mockito.when(patientRepository.findById(1L)).thenReturn(Optional.of(patient));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             slotService.bookSlot("abc", resultstartTime, resultendTime, 1L); // Replace with the actual method call

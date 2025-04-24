@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hospital_management_system.entity.Patient;
 import com.hospital_management_system.entity.Slot;
 import com.hospital_management_system.payload.SlotDTO;
+import com.hospital_management_system.service.EmailService;
 import com.hospital_management_system.service.SlotService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,8 @@ public class SlotControllerTest {
 
     @MockBean
     private SlotService slotService;
+    @MockBean
+    private EmailService emailService;
 
     @Test
     public void testGetAvailableSlots() throws Exception {
@@ -85,7 +88,7 @@ public class SlotControllerTest {
          }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = "USER")
     public void testBookSlot() throws Exception {
         String queueName = "testQueue";
         LocalDateTime startTime = LocalDateTime.parse("2025-04-09T09:30");
@@ -98,12 +101,14 @@ public class SlotControllerTest {
         patient.setName("prashant");
         patient.setGender("male");
         patient.setDateOfBirth("2025-04-09");
+        patient.setEmail("pra123@gmail.com");
 
         //List<Slot> availableSlots = Arrays.asList(new Slot(1L, "testQueue", startTime, endTime, false), new Slot(2L, "testQueue", startTime1, endTime1, false));
         //SlotDTO slotDTO = new SlotDTO(1L, "testQueue", startTime, endTime, false);
         Slot slot = new Slot(1L, "testQueue", startTime, endTime, false, false, patient);
 
         Mockito.when(slotService.bookSlot(queueName, startTime, endTime,patientId)).thenReturn(slot);
+        Mockito.doNothing().when(emailService).sendEmail(patient.getEmail(), "Slot Booking Confirmation", "Your slot has been booked successfully.");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/slots/book/1")
                         .param("queueName", "testQueue")
